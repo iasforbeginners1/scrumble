@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>UPPCS Mind Scramble</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a2e; color: white; text-align: center; padding: 20px; }
+        .box { background: #16213e; border-radius: 15px; padding: 30px; max-width: 500px; margin: auto; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .scrambled { font-size: 32px; letter-spacing: 10px; color: #e94560; font-weight: bold; margin: 20px 0; }
+        input { padding: 10px; width: 80%; border-radius: 5px; border: none; font-size: 18px; margin-bottom: 20px; }
+        button { padding: 10px 25px; background: #0f3460; color: white; border: none; cursor: pointer; border-radius: 5px; font-weight: bold; }
+        button:hover { background: #e94560; }
+        #message { margin-top: 20px; font-weight: bold; }
+        .hint { color: #888; font-style: italic; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>🧠 Mind Scramble: UPPCS Edition</h2>
+    <p class="hint" id="hintText">Hint: Ek Important Historical Site</p>
+    <div class="scrambled" id="scrambledWord">A-H-R-P-P-A-A</div>
+    <input type="text" id="userInput" placeholder="Sahi jawab likhein...">
+    <br>
+    <button onclick="checkAnswer()">Check Answer</button>
+    <div id="message"></div>
+</div>
+
+<script>
+    const quizData = [
+        { word: "HARAPPA", hint: "Indus Valley Civilization ki pehli excavated site" },
+        { word: "PANCHAYAT", hint: "Article 243 isse sambandhit hai" },
+        { word: "KUSHINAGAR", hint: "Mahaparinirvana Sthal (UP Special)" },
+        { word: "KATHAK", hint: "Uttar Pradesh ka shastriya nritya (Classical Dance)" },
+        { word: "BULLION", hint: "Economy: Sona-chandi ka physical form" }
+    ];
+
+    let currentIdx = 0;
+
+    function scramble(word) {
+        return word.split('').sort(() => Math.random() - 0.5).join('-');
+    }
+
+    function loadGame() {
+        const item = quizData[currentIdx];
+        document.getElementById('scrambledWord').innerText = scramble(item.word);
+        document.getElementById('hintText').innerText = "Hint: " + item.hint;
+        document.getElementById('message').innerText = "";
+        document.getElementById('userInput').value = "";
+    }
+
+    function checkAnswer() {
+        let userVal = document.getElementById('userInput').value.toUpperCase().trim();
+        if(userVal === quizData[currentIdx].word) {
+            document.getElementById('message').innerHTML = "✅ Sahi Jawab!";
+            currentIdx = (currentIdx + 1) % quizData.length;
+            setTimeout(loadGame, 1500);
+        } else {
+            document.getElementById('message').innerHTML = "❌ Dobara koshish karein.";
+        }
+    }
+
+    loadGame();
+</script>
+</body>
+</html>
